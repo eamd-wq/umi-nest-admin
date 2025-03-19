@@ -1,10 +1,18 @@
-export default (initialState: API.UserInfo) => {
-  // 在这里按照初始化数据定义项目中的权限，统一管理
-  // 参考文档 https://umijs.org/docs/max/access
-  const canSeeAdmin = !!(
-    initialState && initialState.name !== 'dontHaveAccess'
-  );
+import noAuthRouter from '@/default/noAuthRouter';
+
+/**
+ * @see https://umijs.org/zh-CN/plugins/plugin-access
+ * */
+export default (initialState: InitialStateType) => {
+  const access: string[] = [];
+  if (initialState && initialState.access) {
+    access.push(...initialState.access.map((item) => item.toLowerCase()));
+  }
   return {
-    canSeeAdmin,
+    buttonAccess: (name: string) => access.includes(name.toLowerCase()),
+    urlAccess: (name: string) => {
+      let accessName = name.slice(1).toLowerCase().replace(/\//g, '.');
+      return access.includes(accessName) || noAuthRouter.includes(name);
+    },
   };
 };
