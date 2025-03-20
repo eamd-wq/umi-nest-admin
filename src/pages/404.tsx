@@ -1,3 +1,4 @@
+import { RoutePath } from '@/enums/routePath';
 import { history } from '@umijs/max';
 import { Button, Result } from 'antd';
 
@@ -10,7 +11,7 @@ export default () => {
       extra={
         <Button
           onClick={() => {
-            history.push('/');
+            history.push(RoutePath.ROOT);
           }}
         >
           去首页

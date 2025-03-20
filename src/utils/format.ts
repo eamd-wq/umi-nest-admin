@@ -84,3 +84,18 @@ export const verifyIdCard: FormRule = {
     return Promise.reject(new Error('身份证输入错误!'));
   },
 };
+
+/**
+ * 密码校验
+ */
+export const verifyPassword: FormRule = {
+  validator(_, value) {
+    if (
+      /^\S*(?=\S{6})(?=\S*\d)(?=\S*[A-Z])\S*$/i.test(value.toString()) ||
+      !value
+    ) {
+      return Promise.resolve();
+    }
+    return Promise.reject(new Error('密码输入错误!'));
+  },
+};

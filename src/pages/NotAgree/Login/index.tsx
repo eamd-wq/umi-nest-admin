@@ -1,5 +1,12 @@
+import { RoutePath } from '@/enums/routePath';
+import { Api } from '@/services';
 import { verifyMobile } from '@/utils/format';
-import { LockOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  LockOutlined,
+  MobileOutlined,
+  SafetyCertificateOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import {
   LoginFormPage,
   ProFormCaptcha,
@@ -8,7 +15,8 @@ import {
 } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
 import { Tabs, message, theme } from 'antd';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import GraphicCaptcha from './components/GraphicCaptcha';
 
 type LoginType = 'phone' | 'account';
 
@@ -16,6 +24,21 @@ const Login = () => {
   const { initialState } = useModel('@@initialState');
   const [loginType, setLoginType] = useState<LoginType>('account');
   const { token } = theme.useToken();
+
+  const [captchaId, setCaptchaId] = useState<string>();
+
+  const submitHandler = useCallback(
+    async (values: API.LoginDto) => {
+      if (!captchaId) {
+        message.error('请先获取验证码');
+        return;
+      }
+      const { data } = await Api.auth.authLogin({ ...values, captchaId });
+      localStorage.setItem('x-token', data.token);
+      location.replace(RoutePath.ROOT);
+    },
+    [captchaId],
+  );
   return (
     <div
       style={{
@@ -27,15 +50,23 @@ const Login = () => {
         backgroundVideoUrl="https://gw.alipayobjects.com/v/huamei_gcee1x/afts/video/jXRBRK_VAwoAAAAAAAAAAAAAK4eUAQBr"
         title={initialState?.name}
         subTitle="纯大前端技术的前后端分离模板"
+        onFinish={submitHandler}
       >
         <Tabs
           centered
           activeKey={loginType}
           onChange={(activeKey) => setLoginType(activeKey as LoginType)}
-        >
-          <Tabs.TabPane key={'account'} tab={'账号密码登录'} />
-          <Tabs.TabPane key={'phone'} tab={'手机号登录'} />
-        </Tabs>
+          items={[
+            {
+              key: 'account',
+              label: '账号密码登录',
+            },
+            {
+              key: 'phone',
+              label: '手机号登录',
+            },
+          ]}
+        />
         {loginType === 'account' && (
           <>
             <ProFormText
@@ -47,7 +78,6 @@ const Login = () => {
                     style={{
                       color: token.colorText,
                     }}
-                    className={'prefixIcon'}
                   />
                 ),
               }}
@@ -68,7 +98,6 @@ const Login = () => {
                     style={{
                       color: token.colorText,
                     }}
-                    className={'prefixIcon'}
                   />
                 ),
               }}
@@ -77,6 +106,27 @@ const Login = () => {
                 {
                   required: true,
                   message: '请输入密码！',
+                },
+              ]}
+            />
+            <ProFormText
+              fieldProps={{
+                size: 'large',
+                prefix: (
+                  <SafetyCertificateOutlined
+                    style={{
+                      color: token.colorText,
+                    }}
+                  />
+                ),
+                suffix: <GraphicCaptcha onChange={(id) => setCaptchaId(id)} />,
+              }}
+              name="verifyCode"
+              placeholder={'验证码'}
+              rules={[
+                {
+                  required: true,
+                  message: '请输入验证码！',
                 },
               ]}
             />
@@ -92,7 +142,6 @@ const Login = () => {
                     style={{
                       color: token.colorText,
                     }}
-                    className={'prefixIcon'}
                   />
                 ),
               }}
@@ -116,7 +165,6 @@ const Login = () => {
                     style={{
                       color: token.colorText,
                     }}
-                    className={'prefixIcon'}
                   />
                 ),
               }}

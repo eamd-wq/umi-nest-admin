@@ -9,8 +9,16 @@ export default defineConfig({
   request: {},
   esbuildMinifyIIFE: true,
   layout: {},
+  valtio: {},
   conventionRoutes: {
     exclude: [/\/components\//, /\/models\//, /NotAgree/],
   },
   npmClient: 'pnpm',
+  tailwindcss: {},
+  proxy: {
+    '/api': {
+      target: 'http://localhost:7001',
+      changeOrigin: true,
+    },
+  },
 });

@@ -2,8 +2,11 @@
 
 import Access from '@/components/Access';
 import initialState from '@/default/initialState';
+import noAuthRouter from '@/default/noAuthRouter';
 import defaultRoutes from '@/default/routes';
-import { Navigate, RuntimeConfig } from '@umijs/max';
+import { RoutePath } from '@/enums/routePath';
+import requestConfig from '@/services/interceptor';
+import { history, Navigate, RuntimeConfig } from '@umijs/max';
 import { lazy } from 'react';
 
 // 全局初始化数据配置，用于 Layout 用户信息和权限初始化
@@ -20,7 +23,7 @@ export const layout: RuntimeConfig['layout'] = () => {
     menu: {
       locale: false,
     },
-    actionsRender: () => <>J*</>,
+    actionsRender: () => null,
     childrenRender: (children) => <Access>{children}</Access>,
   };
 };
@@ -33,8 +36,21 @@ export const patchClientRoutes: RuntimeConfig['patchClientRoutes'] = ({
     return <Module />;
   };
   routes.unshift({
-    path: '/',
-    element: <Navigate to="/dashboard/analysis" replace />,
+    path: RoutePath.ROOT,
+    element: <Navigate to={RoutePath.MAIN} replace />,
   });
   routes.push(...defaultRoutes(lazyLoad));
+};
+
+export const request: RuntimeConfig['request'] = { ...requestConfig };
+
+export const render: RuntimeConfig['render'] = (oldRender) => {
+  const pathname = location.pathname;
+  const token = localStorage.getItem('x-token');
+  if (token && pathname === RoutePath.LOGIN) {
+    history.replace(RoutePath.ROOT);
+  } else if (!token && !noAuthRouter.includes(pathname)) {
+    history.replace(RoutePath.LOGIN);
+  }
+  oldRender();
 };
