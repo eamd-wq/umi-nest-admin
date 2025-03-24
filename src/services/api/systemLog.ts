@@ -13,16 +13,20 @@ export async function logCaptchaList(
   params: API.LogCaptchaListParams,
   options?: { [key: string]: any },
 ) {
-  return request<{
-    items?: API.CaptchaLogEntity[];
-    meta?: {
-      itemCount?: number;
-      totalItems?: number;
-      itemsPerPage?: number;
-      totalPages?: number;
-      currentPage?: number;
-    };
-  }>('/api/system/log/captcha/list', {
+  return request<
+    API.ResOp & {
+      data?: {
+        items?: API.CaptchaLogEntity[];
+        meta?: {
+          itemCount?: number;
+          totalItems?: number;
+          itemsPerPage?: number;
+          totalPages?: number;
+          currentPage?: number;
+        };
+      };
+    }
+  >('/api/system/log/captcha/list', {
     method: 'GET',
     params: {
       ...params,
@@ -37,16 +41,20 @@ export async function logLoginLogPage(
   params: API.LogLoginLogPageParams,
   options?: { [key: string]: any },
 ) {
-  return request<{
-    items?: API.LoginLogInfo[];
-    meta?: {
-      itemCount?: number;
-      totalItems?: number;
-      itemsPerPage?: number;
-      totalPages?: number;
-      currentPage?: number;
-    };
-  }>('/api/system/log/login/list', {
+  return request<
+    API.ResOp & {
+      data?: {
+        items?: API.LoginLogInfo[];
+        meta?: {
+          itemCount?: number;
+          totalItems?: number;
+          itemsPerPage?: number;
+          totalPages?: number;
+          currentPage?: number;
+        };
+      };
+    }
+  >('/api/system/log/login/list', {
     method: 'GET',
     params: {
       ...params,
@@ -61,16 +69,20 @@ export async function logTaskList(
   params: API.LogTaskListParams,
   options?: { [key: string]: any },
 ) {
-  return request<{
-    items?: API.TaskLogEntity[];
-    meta?: {
-      itemCount?: number;
-      totalItems?: number;
-      itemsPerPage?: number;
-      totalPages?: number;
-      currentPage?: number;
-    };
-  }>('/api/system/log/task/list', {
+  return request<
+    API.ResOp & {
+      data?: {
+        items?: API.TaskLogEntity[];
+        meta?: {
+          itemCount?: number;
+          totalItems?: number;
+          itemsPerPage?: number;
+          totalPages?: number;
+          currentPage?: number;
+        };
+      };
+    }
+  >('/api/system/log/task/list', {
     method: 'GET',
     params: {
       ...params,

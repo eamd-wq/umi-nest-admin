@@ -13,13 +13,16 @@ export async function menuList(
   params: API.MenuListParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.MenuItemInfo[]>('/api/system/menus', {
-    method: 'GET',
-    params: {
-      ...params,
+  return request<API.ResOp & { data?: API.MenuItemInfo[] }>(
+    '/api/system/menus',
+    {
+      method: 'GET',
+      params: {
+        ...params,
+      },
+      ...(options || {}),
     },
-    ...(options || {}),
-  });
+  );
 }
 
 /** 新增菜单或权限 POST /api/system/menus */

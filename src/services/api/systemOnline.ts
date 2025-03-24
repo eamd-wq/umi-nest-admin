@@ -24,8 +24,11 @@ export async function onlineKick(
 
 /** 查询当前在线用户 GET /api/system/online/list */
 export async function onlineList(options?: { [key: string]: any }) {
-  return request<API.OnlineUserInfo[]>('/api/system/online/list', {
-    method: 'GET',
-    ...(options || {}),
-  });
+  return request<API.ResOp & { data?: API.OnlineUserInfo[] }>(
+    '/api/system/online/list',
+    {
+      method: 'GET',
+      ...(options || {}),
+    },
+  );
 }

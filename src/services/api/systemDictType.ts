@@ -13,16 +13,20 @@ export async function dictTypeList(
   params: API.DictTypeListParams,
   options?: { [key: string]: any },
 ) {
-  return request<{
-    items?: API.DictTypeEntity[];
-    meta?: {
-      itemCount?: number;
-      totalItems?: number;
-      itemsPerPage?: number;
-      totalPages?: number;
-      currentPage?: number;
-    };
-  }>('/api/system/dict-type', {
+  return request<
+    API.ResOp & {
+      data?: {
+        items?: API.DictTypeEntity[];
+        meta?: {
+          itemCount?: number;
+          totalItems?: number;
+          itemsPerPage?: number;
+          totalPages?: number;
+          currentPage?: number;
+        };
+      };
+    }
+  >('/api/system/dict-type', {
     method: 'GET',
     params: {
       ...params,
@@ -53,11 +57,14 @@ export async function dictTypeInfo(
   options?: { [key: string]: any },
 ) {
   const { id: param0, ...queryParams } = params;
-  return request<API.DictTypeEntity>(`/api/system/dict-type/${param0}`, {
-    method: 'GET',
-    params: { ...queryParams },
-    ...(options || {}),
-  });
+  return request<API.ResOp & { data?: API.DictTypeEntity }>(
+    `/api/system/dict-type/${param0}`,
+    {
+      method: 'GET',
+      params: { ...queryParams },
+      ...(options || {}),
+    },
+  );
 }
 
 /** 更新字典类型 POST /api/system/dict-type/${param0} */
@@ -95,8 +102,11 @@ export async function dictTypeDelete(
 
 /** 一次性获取所有的字典类型(不分页) GET /api/system/dict-type/select-options */
 export async function dictTypeGetAll(options?: { [key: string]: any }) {
-  return request<API.DictTypeEntity[]>('/api/system/dict-type/select-options', {
-    method: 'GET',
-    ...(options || {}),
-  });
+  return request<API.ResOp & { data?: API.DictTypeEntity[] }>(
+    '/api/system/dict-type/select-options',
+    {
+      method: 'GET',
+      ...(options || {}),
+    },
+  );
 }

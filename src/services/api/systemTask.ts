@@ -13,16 +13,20 @@ export async function taskList(
   params: API.TaskListParams,
   options?: { [key: string]: any },
 ) {
-  return request<{
-    items?: API.TaskEntity[];
-    meta?: {
-      itemCount?: number;
-      totalItems?: number;
-      itemsPerPage?: number;
-      totalPages?: number;
-      currentPage?: number;
-    };
-  }>('/api/system/tasks', {
+  return request<
+    API.ResOp & {
+      data?: {
+        items?: API.TaskEntity[];
+        meta?: {
+          itemCount?: number;
+          totalItems?: number;
+          itemsPerPage?: number;
+          totalPages?: number;
+          currentPage?: number;
+        };
+      };
+    }
+  >('/api/system/tasks', {
     method: 'GET',
     params: {
       ...params,
@@ -53,11 +57,14 @@ export async function taskInfo(
   options?: { [key: string]: any },
 ) {
   const { id: param0, ...queryParams } = params;
-  return request<API.TaskEntity>(`/api/system/tasks/${param0}`, {
-    method: 'GET',
-    params: { ...queryParams },
-    ...(options || {}),
-  });
+  return request<API.ResOp & { data?: API.TaskEntity }>(
+    `/api/system/tasks/${param0}`,
+    {
+      method: 'GET',
+      params: { ...queryParams },
+      ...(options || {}),
+    },
+  );
 }
 
 /** 更新任务 PUT /api/system/tasks/${param0} */

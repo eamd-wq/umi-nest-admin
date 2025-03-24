@@ -25,6 +25,7 @@ declare namespace API {
 
   type AccountMenus = {
     meta: MenuMeta;
+    children?: AccountMenus[];
     id: number;
     path: string;
     name: string;

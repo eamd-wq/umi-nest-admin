@@ -13,16 +13,20 @@ export async function paramConfigList(
   params: API.ParamConfigListParams,
   options?: { [key: string]: any },
 ) {
-  return request<{
-    items?: API.ParamConfigEntity[];
-    meta?: {
-      itemCount?: number;
-      totalItems?: number;
-      itemsPerPage?: number;
-      totalPages?: number;
-      currentPage?: number;
-    };
-  }>('/api/system/param-config', {
+  return request<
+    API.ResOp & {
+      data?: {
+        items?: API.ParamConfigEntity[];
+        meta?: {
+          itemCount?: number;
+          totalItems?: number;
+          itemsPerPage?: number;
+          totalPages?: number;
+          currentPage?: number;
+        };
+      };
+    }
+  >('/api/system/param-config', {
     method: 'GET',
     params: {
       ...params,
@@ -53,11 +57,14 @@ export async function paramConfigInfo(
   options?: { [key: string]: any },
 ) {
   const { id: param0, ...queryParams } = params;
-  return request<API.ParamConfigEntity>(`/api/system/param-config/${param0}`, {
-    method: 'GET',
-    params: { ...queryParams },
-    ...(options || {}),
-  });
+  return request<API.ResOp & { data?: API.ParamConfigEntity }>(
+    `/api/system/param-config/${param0}`,
+    {
+      method: 'GET',
+      params: { ...queryParams },
+      ...(options || {}),
+    },
+  );
 }
 
 /** 更新参数配置 POST /api/system/param-config/${param0} */

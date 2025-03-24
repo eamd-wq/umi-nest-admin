@@ -17,10 +17,13 @@ export async function accountLogout(options?: { [key: string]: any }) {
 
 /** 获取菜单列表 GET /api/account/menus */
 export async function accountMenu(options?: { [key: string]: any }) {
-  return request<API.AccountMenus[]>('/api/account/menus', {
-    method: 'GET',
-    ...(options || {}),
-  });
+  return request<API.ResOp & { data?: API.AccountMenus[] }>(
+    '/api/account/menus',
+    {
+      method: 'GET',
+      ...(options || {}),
+    },
+  );
 }
 
 /** 更改账户密码 POST /api/account/password */
@@ -40,7 +43,7 @@ export async function accountPassword(
 
 /** 获取权限列表 GET /api/account/permissions */
 export async function accountPermissions(options?: { [key: string]: any }) {
-  return request<string[]>('/api/account/permissions', {
+  return request<API.ResOp & { data?: string[] }>('/api/account/permissions', {
     method: 'GET',
     ...(options || {}),
   });
@@ -48,10 +51,13 @@ export async function accountPermissions(options?: { [key: string]: any }) {
 
 /** 获取账户资料 GET /api/account/profile */
 export async function accountProfile(options?: { [key: string]: any }) {
-  return request<API.AccountInfo>('/api/account/profile', {
-    method: 'GET',
-    ...(options || {}),
-  });
+  return request<API.ResOp & { data?: API.AccountInfo }>(
+    '/api/account/profile',
+    {
+      method: 'GET',
+      ...(options || {}),
+    },
+  );
 }
 
 /** 更改账户资料 PUT /api/account/update */

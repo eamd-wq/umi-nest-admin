@@ -13,16 +13,20 @@ export async function dictItemList(
   params: API.DictItemListParams,
   options?: { [key: string]: any },
 ) {
-  return request<{
-    items?: API.DictItemEntity[];
-    meta?: {
-      itemCount?: number;
-      totalItems?: number;
-      itemsPerPage?: number;
-      totalPages?: number;
-      currentPage?: number;
-    };
-  }>('/api/system/dict-item', {
+  return request<
+    API.ResOp & {
+      data?: {
+        items?: API.DictItemEntity[];
+        meta?: {
+          itemCount?: number;
+          totalItems?: number;
+          itemsPerPage?: number;
+          totalPages?: number;
+          currentPage?: number;
+        };
+      };
+    }
+  >('/api/system/dict-item', {
     method: 'GET',
     params: {
       ...params,
@@ -53,11 +57,14 @@ export async function dictItemInfo(
   options?: { [key: string]: any },
 ) {
   const { id: param0, ...queryParams } = params;
-  return request<API.DictItemEntity>(`/api/system/dict-item/${param0}`, {
-    method: 'GET',
-    params: { ...queryParams },
-    ...(options || {}),
-  });
+  return request<API.ResOp & { data?: API.DictItemEntity }>(
+    `/api/system/dict-item/${param0}`,
+    {
+      method: 'GET',
+      params: { ...queryParams },
+      ...(options || {}),
+    },
+  );
 }
 
 /** 更新字典项 POST /api/system/dict-item/${param0} */

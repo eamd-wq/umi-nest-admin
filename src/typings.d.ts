@@ -9,7 +9,9 @@ interface InitialStateType {
   // 用户信息
   userInfo?: API.AccountInfo;
   // 菜单
-  menus?: any;
+  menus?: API.AccountMenus[];
+  // 权限
+  menuAccess: string[];
   // 主题
   theme: 'light' | 'dark';
 }

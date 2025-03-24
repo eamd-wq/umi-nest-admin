@@ -28,16 +28,20 @@ export async function storageList(
   params: API.StorageListParams,
   options?: { [key: string]: any },
 ) {
-  return request<{
-    items?: API.StorageInfo[];
-    meta?: {
-      itemCount?: number;
-      totalItems?: number;
-      itemsPerPage?: number;
-      totalPages?: number;
-      currentPage?: number;
-    };
-  }>('/api/tools/storage/list', {
+  return request<
+    API.ResOp & {
+      data?: {
+        items?: API.StorageInfo[];
+        meta?: {
+          itemCount?: number;
+          totalItems?: number;
+          itemsPerPage?: number;
+          totalPages?: number;
+          currentPage?: number;
+        };
+      };
+    }
+  >('/api/tools/storage/list', {
     method: 'GET',
     params: {
       ...params,

@@ -13,16 +13,20 @@ export async function userList(
   params: API.UserListParams,
   options?: { [key: string]: any },
 ) {
-  return request<{
-    items?: API.UserEntity[];
-    meta?: {
-      itemCount?: number;
-      totalItems?: number;
-      itemsPerPage?: number;
-      totalPages?: number;
-      currentPage?: number;
-    };
-  }>('/api/system/users', {
+  return request<
+    API.ResOp & {
+      data?: {
+        items?: API.UserEntity[];
+        meta?: {
+          itemCount?: number;
+          totalItems?: number;
+          itemsPerPage?: number;
+          totalPages?: number;
+          currentPage?: number;
+        };
+      };
+    }
+  >('/api/system/users', {
     method: 'GET',
     params: {
       ...params,

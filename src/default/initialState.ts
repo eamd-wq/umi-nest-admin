@@ -1,12 +1,14 @@
+import Api from '@/services';
+
 const fetchUserInfo = async () => {
-  return void 0;
+  return await Api.account.accountProfile();
 };
 
 const initialState: InitialStateType = {
   name: 'Umi Nest Admin',
   isLogin: false,
   access: [],
-  userInfo: {},
+  menuAccess: [],
   theme: 'light',
   fetchUserInfo,
 };

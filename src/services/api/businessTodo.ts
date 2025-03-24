@@ -13,7 +13,7 @@ export async function todoList(
   params: API.TodoListParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.TodoEntity[]>('/api/todos', {
+  return request<API.ResOp & { data?: API.TodoEntity[] }>('/api/todos', {
     method: 'GET',
     params: {
       ...params,
@@ -44,11 +44,14 @@ export async function todoInfo(
   options?: { [key: string]: any },
 ) {
   const { id: param0, ...queryParams } = params;
-  return request<API.TodoEntity>(`/api/todos/${param0}`, {
-    method: 'GET',
-    params: { ...queryParams },
-    ...(options || {}),
-  });
+  return request<API.ResOp & { data?: API.TodoEntity }>(
+    `/api/todos/${param0}`,
+    {
+      method: 'GET',
+      params: { ...queryParams },
+      ...(options || {}),
+    },
+  );
 }
 
 /** 更新Todo PUT /api/todos/${param0} */
