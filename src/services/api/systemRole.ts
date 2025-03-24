@@ -13,20 +13,16 @@ export async function roleList(
   params: API.RoleListParams,
   options?: { [key: string]: any },
 ) {
-  return request<
-    API.ResOp & {
-      data?: {
-        items?: API.RoleEntity[];
-        meta?: {
-          itemCount?: number;
-          totalItems?: number;
-          itemsPerPage?: number;
-          totalPages?: number;
-          currentPage?: number;
-        };
-      };
-    }
-  >('/api/system/roles', {
+  return request<{
+    items?: API.RoleEntity[];
+    meta?: {
+      itemCount?: number;
+      totalItems?: number;
+      itemsPerPage?: number;
+      totalPages?: number;
+      currentPage?: number;
+    };
+  }>('/api/system/roles', {
     method: 'GET',
     params: {
       ...params,
@@ -57,14 +53,11 @@ export async function roleInfo(
   options?: { [key: string]: any },
 ) {
   const { id: param0, ...queryParams } = params;
-  return request<API.ResOp & { data?: API.RoleInfo }>(
-    `/api/system/roles/${param0}`,
-    {
-      method: 'GET',
-      params: { ...queryParams },
-      ...(options || {}),
-    },
-  );
+  return request<API.RoleInfo>(`/api/system/roles/${param0}`, {
+    method: 'GET',
+    params: { ...queryParams },
+    ...(options || {}),
+  });
 }
 
 /** 更新角色 PUT /api/system/roles/${param0} */

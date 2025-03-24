@@ -13,7 +13,7 @@ export async function deptList(
   params: API.DeptListParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.ResOp & { data?: API.DeptEntity[] }>('/api/system/depts', {
+  return request<API.DeptEntity[]>('/api/system/depts', {
     method: 'GET',
     params: {
       ...params,

@@ -82,5 +82,11 @@ generateService({
       }
       return;
     },
+    customType(schemaObject, namespace, defaultGetType) {
+      const type = defaultGetType(schemaObject, namespace);
+      // 提取出 data 的类型
+      const regex = /API\.ResOp & { 'data'\?: (.+); }/;
+      return type.replace(regex, '$1');
+    },
   },
 });

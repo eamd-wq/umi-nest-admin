@@ -9,11 +9,8 @@ import { request } from '@umijs/max';
 
 /** 获取服务器运行信息 GET /api/system/serve/stat */
 export async function serveStat(options?: { [key: string]: any }) {
-  return request<API.ResOp & { data?: API.ServeStatInfo }>(
-    '/api/system/serve/stat',
-    {
-      method: 'GET',
-      ...(options || {}),
-    },
-  );
+  return request<API.ServeStatInfo>('/api/system/serve/stat', {
+    method: 'GET',
+    ...(options || {}),
+  });
 }

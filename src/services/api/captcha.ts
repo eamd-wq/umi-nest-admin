@@ -13,14 +13,11 @@ export async function captchaCaptchaByImg(
   params: API.CaptchaCaptchaByImgParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.ResOp & { data?: API.ImageCaptcha }>(
-    '/api/auth/captcha/img',
-    {
-      method: 'GET',
-      params: {
-        ...params,
-      },
-      ...(options || {}),
+  return request<API.ImageCaptcha>('/api/auth/captcha/img', {
+    method: 'GET',
+    params: {
+      ...params,
     },
-  );
+    ...(options || {}),
+  });
 }

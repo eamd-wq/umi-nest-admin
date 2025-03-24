@@ -7,7 +7,7 @@ interface InitialStateType {
   // 获取用户信息
   fetchUserInfo: () => Promise<any>;
   // 用户信息
-  userInfo?: any;
+  userInfo?: API.AccountInfo;
   // 菜单
   menus?: any;
   // 主题

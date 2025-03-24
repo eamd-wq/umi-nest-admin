@@ -12,7 +12,7 @@ export async function authLogin(
   body: API.LoginDto,
   options?: { [key: string]: any },
 ) {
-  return request<API.ResOp & { data?: API.LoginToken }>('/api/auth/login', {
+  return request<API.LoginToken>('/api/auth/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
